@@ -4,7 +4,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 export default async function Home() {
   // Try to fetch from Supabase
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/greetings?select=*`, {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/greetings`, {
     headers: {
       'apikey': SUPABASE_KEY,
       'Authorization': `Bearer ${SUPABASE_KEY}`,
