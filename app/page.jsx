@@ -39,27 +39,43 @@ export default async function Home() {
   const greetings = await response.json() || [];
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '40px', maxWidth: '500px', margin: '0 auto' }}>
-      <h1>Hello, Modern Web!</h1>
-      
-      {/* HTML Form bound directly to our server function */}
-      <form action={addName} style={{ marginBottom: '20px' }}>
-        <input 
-          type="text" 
-          name="newName" 
-          placeholder="Enter a new name" 
-          required 
-          style={{ padding: '8px', marginRight: '8px', width: '200px' }}
-        />
-        <button type="submit" style={{ padding: '8px 16px' }}>Add Name</button>
-      </form>
-
-      <h3>Database Entries:</h3>
-      <ul>
-        {greetings.map((item) => (
-          <li key={item.id}>Hello, {item.name}!</li>
-        ))}
-      </ul>
-    </div>
+       // If greetings isn't an array (meaning the API call failed), show the raw error message
+      if (!Array.isArray(greetings)) {
+        return (
+          <div style={{ padding: '40px', color: 'red', fontFamily: 'sans-serif' }}>
+            <h3>Database Connection Failed</h3>
+            <p>Supabase returned an error instead of data. Here is the response:</p>
+            <pre style={{ background: '#f4f4f4', padding: '15px', color: '#333' }}>
+              {JSON.stringify(greetings, null, 2)}
+            </pre>
+          </div>
+        );
+      }
+    
+      // If it IS an array, render the page normally
+      return (
+        <div style={{ fontFamily: 'sans-serif', padding: '40px', maxWidth: '500px', margin: '0 auto' }}>
+          <h1>Hello, Modern Web!</h1>
+          
+          <form action={addName} style={{ marginBottom: '20px' }}>
+            <input 
+              type="text" 
+              name="newName" 
+              placeholder="Enter a new name" 
+              required 
+              style={{ padding: '8px', marginRight: '8px', width: '200px' }}
+            />
+            <button type="submit" style={{ padding: '8px 16px' }}>Add Name</button>
+          </form>
+    
+          <h3>Database Entries:</h3>
+          <ul>
+            {greetings.map((item) => (
+              <li key={item.id}>Hello, {item.name}!</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
   );
 }
